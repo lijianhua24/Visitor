@@ -102,10 +102,11 @@
 
         <ImageView
             android:layout_width="130dp"
-
+            android:id="@+id/register_image"
             android:layout_height="150dp"
             android:layout_alignParentRight="true"
             android:background="@mipmap/ic_launcher" />
+
     </RelativeLayout>
 
     <LinearLayout
@@ -119,12 +120,21 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="130dp"
-            android:layout_height="150dp"
-            android:background="@mipmap/ic_launcher" />
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.ysd.visitor.widget.RoundTextureView
+                android:layout_marginTop="10dp"
+                android:id="@+id/register_round"
+                android:layout_width="150dp"
+                android:layout_height="150dp" />
+
+        </RelativeLayout>
 
         <Button
+            android:id="@+id/register_bt"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"

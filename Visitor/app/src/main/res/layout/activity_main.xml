@@ -33,6 +33,7 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"/>
             <Button
+                android:id="@+id/main_inquire"
                 android:text="@string/bt_two"
                 android:textSize="12sp"
                 android:layout_marginTop="80dp"
