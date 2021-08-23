@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 
 /**
  * @Package: App.java
@@ -25,6 +27,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         sContext = this;
+        Fresco.initialize(sContext);
         // externalFilesDir = sContext.getExternalFilesDir("SDCard/Android/data/com.zr.car/cache/目录");
         sharedPreferences = sContext.getSharedPreferences("user", Context.MODE_PRIVATE);
         // 通过WXAPIFactory工厂，获取IWXAPI的实例

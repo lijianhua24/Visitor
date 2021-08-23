@@ -4,147 +4,568 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorQHui"
-    android:orientation="horizontal"
+    android:background="#F6F7FB"
+    android:orientation="vertical"
+
     tools:context=".ui.activity.RegisterActivity">
 
-    <RelativeLayout
-        android:layout_width="350dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/login_back">
+    <include layout="@layout/head_layout" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="姓名："
-                android:textColor="@color/colorBlack"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="身份证号："
-                android:textColor="@color/colorBlack"
-                android:textSize="14sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="来访问目的："
-                    android:textColor="@color/colorBlack"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="请选择"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="到访时间："
-                android:textColor="@color/colorBlack"
-                android:textSize="14sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="权限有效期："
-                    android:textColor="@color/colorBlack"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="请选择"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="130dp"
-            android:id="@+id/register_image"
-            android:layout_height="150dp"
-            android:layout_alignParentRight="true"
-            android:background="@mipmap/ic_launcher" />
-
-    </RelativeLayout>
-
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20sp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/login_back"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/register_recy"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <com.ysd.visitor.widget.RoundTextureView
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/login_back">
+
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:id="@+id/register_round"
-                android:layout_width="150dp"
-                android:layout_height="150dp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/register_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="姓名："
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/register_carid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="身份证号："
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/register_purpose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="来访问目的："
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/register_purpose_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="请选择"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/register_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="到访时间："
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/register_efficient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="权限有效期："
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/register_efficient_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="请选择"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/register_efficient_linear"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="手机号："
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/register_efficient_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:background="@null"
+                        android:hint="请输入备注信息"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="备注："
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/register_efficient_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:background="@null"
+                        android:hint="请输入备注信息"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:background="@color/colorBlack"
+                android:id="@+id/register_image"
+                android:layout_width="130dp"
+                android:layout_height="150dp"
+                android:layout_alignParentRight="true" />
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/register_bt"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:text="拍照" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20sp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/login_back"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:text="人脸对比" />
 
-    </LinearLayout>
+            <RelativeLayout
+                android:layout_width="150dp"
+                android:layout_height="157.5dp">
+
+                <com.ysd.visitor.widget.RoundTextureView
+                    android:id="@+id/register_round"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/register_bt"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:text="采集" />
+
+            <Button
+                android:id="@+id/register_bb"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:text="提交" />
+
+            <TextView
+                android:id="@+id/register_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text=""
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:background="@color/colorBai"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/register_recy"
+                android:layout_width="match_parent"
+                android:layout_height="22dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#F8F8FA"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="基本信息"
+                        android:textColor="#ff232735"
+                        android:textSize="8sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18.5dp"
+                        android:layout_marginTop="13.5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="姓         名："
+                            android:textColor="#ff232735"
+                            android:textSize="7sp" />
+
+                        <EditText
+                            android:id="@+id/register_name"
+                            android:textSize="7sp"
+                            android:paddingLeft="5dp"
+                            android:layout_width="153.5dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="2dp"
+                            android:background="@drawable/text_border"
+                            android:enabled="false"
+                            android:textColor="@color/colorBlack" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18.5dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="身 份 证 号："
+                            android:textColor="#ff232735"
+                            android:textSize="7sp" />
+
+                        <EditText
+                            android:id="@+id/register_carid"
+                            android:layout_width="153.5dp"
+                            android:textSize="7sp"
+                            android:paddingLeft="5dp"
+                            android:enabled="false"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="2dp"
+                            android:background="@drawable/text_border"
+                            android:textColor="@color/colorBlack" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/register_purpose"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18.5dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_marginTop="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="来访问目的："
+                            android:textColor="#ff232735"
+                            android:textSize="7sp" />
+
+                        <TextView
+                            android:id="@+id/register_purpose_text"
+                            android:layout_width="153.5dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="44dp"
+                            android:background="@drawable/text_border"
+                            android:gravity="center_vertical"
+                            android:hint="请选择"
+                            android:paddingLeft="5dp"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="7sp" />
+                        <ImageView
+                            android:layout_marginTop="5dp"
+                            android:background="@mipmap/pull_image"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="7.5dp"
+                            android:layout_width="5dp"
+                            android:layout_height="3.5dp"/>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18.5dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="到 访 时 间："
+                            android:textColor="#ff232735"
+                            android:textSize="7sp" />
+
+                        <TextView
+                            android:id="@+id/register_time"
+                            android:layout_width="153.5dp"
+                            android:layout_height="18dp"
+                            android:textSize="8sp"
+                            android:layout_marginLeft="2dp"
+                            android:background="@drawable/text_border"
+                            android:textColor="@color/colorBlack" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/register_efficient"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18.5dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_marginTop="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="权限有效期："
+                            android:textColor="#ff232735"
+                            android:textSize="7sp" />
+
+                        <TextView
+                            android:id="@+id/register_efficient_tv"
+                            android:layout_width="153.5dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="44dp"
+                            android:background="@drawable/text_border"
+                            android:gravity="center_vertical"
+                            android:hint="请选择"
+                            android:paddingLeft="5dp"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="7sp" />
+                        <ImageView
+                            android:layout_marginTop="5dp"
+                            android:background="@mipmap/pull_image"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="7.5dp"
+                            android:layout_width="5dp"
+                            android:layout_height="3.5dp"/>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/register_efficient_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18.5dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="手机 号："
+                            android:textColor="#ff232735"
+                            android:textSize="7sp" />
+
+                        <EditText
+                            android:id="@+id/register_efficient_phone"
+                            android:layout_width="153.5dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="2dp"
+                            android:background="@drawable/text_border"
+                            android:gravity="center_vertical"
+                            android:hint="请选择"
+                            android:paddingLeft="5dp"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="7sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18.5dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="备         注："
+                            android:textColor="#ff232735"
+                            android:textSize="7sp" />
+
+                        <EditText
+                            android:id="@+id/register_efficient_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="57dp"
+                            android:background="@drawable/text_border"
+                            android:gravity="top"
+                            android:minLines="5"
+                            android:textColor="@color/colorBlack" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/register_contrast"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#F8F8FA"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="人脸对比"
+                        android:textColor="#ff232735"
+                        android:textSize="8sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <com.facebook.drawee.view.SimpleDraweeView
+                            android:id="@+id/register_image"
+                            android:layout_width="87dp"
+                            android:layout_height="87dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="40dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="100dp"
+                                android:layout_height="107.5dp">
+
+                                <com.ysd.visitor.widget.RoundTextureView
+                                    android:id="@+id/register_round"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp" />
+
+                            </RelativeLayout>
+
+                            <Button
+                                android:id="@+id/register_bt"
+                                android:layout_width="60dp"
+                                android:layout_height="25dp"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/collection_bt"
+                                android:text="采集"
+                                android:textColor="#ffffffff"
+                                android:textSize="8sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="7.5dp"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/register_bb"
+                android:layout_width="80dp"
+                android:layout_height="25dp"
+                android:background="@drawable/collection_bt"
+                android:text="提交"
+                android:textColor="#ffffffff"
+                android:textSize="8sp" />
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

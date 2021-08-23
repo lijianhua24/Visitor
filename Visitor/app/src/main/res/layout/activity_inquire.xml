@@ -4,59 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBai"
+    android:background="#F6F7FB"
     android:orientation="vertical"
     tools:context=".ui.activity.InquireActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
 
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="30dp"
-            android:background="@drawable/search"
-            android:hint="请输入搜索关键字"
-            android:paddingLeft="20dp"
-            android:textSize="14sp" />
+        <include layout="@layout/head_layout" />
 
-        <Button
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="25dp"
-            android:background="@drawable/btclock"
-            android:text="搜索"
-            android:textColor="@color/colorBai" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_marginLeft="65dp"
+            android:gravity="center_vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/colorQHui" />
+            <View
+                android:layout_width="0.85dp"
+                android:layout_height="10.25dp"
+                android:background="@color/colorBai" />
+
+            <RelativeLayout
+                android:layout_width="160dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/search"
+                android:gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/inquire_edit"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:hint="请输入查询内容"
+                    android:textColor="#ff323232"
+                    android:textSize="8sp" />
+
+                <ImageView
+                    android:id="@+id/inquire_bt"
+                    android:layout_width="11.1dp"
+                    android:layout_height="11.95dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@mipmap/image_search" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="5dp"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="查询结果"
-            android:textColor="@color/colorBlack"
-            android:textSize="16sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/inquire_smart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp" />
+            android:layout_height="match_parent">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/inquire_recy"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
     </LinearLayout>
 </LinearLayout>

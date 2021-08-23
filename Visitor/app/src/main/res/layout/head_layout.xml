@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:background="@drawable/head"
+    android:layout_height="53dp">
+    <LinearLayout
+        android:id="@+id/car_head_linear"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_marginLeft="17dp"
+            android:background="@mipmap/password_back"
+            android:layout_width="5.12dp"
+            android:layout_height="8.54dp"/>
+        <TextView
+            android:id="@+id/car_head_finsh"
+            android:text="返回"
+            android:layout_marginLeft="7dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBai"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

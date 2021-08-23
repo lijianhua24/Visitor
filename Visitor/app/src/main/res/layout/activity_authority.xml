@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#F6F7FB"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.AuthorityActivity">
+   <RelativeLayout
+       android:gravity="center_vertical"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <include layout="@layout/head_layout"/>
+       <LinearLayout
+           android:gravity="center_vertical"
+           android:layout_marginLeft="65dp"
+           android:layout_width="match_parent"
+           android:layout_height="53dp">
+           <View
+               android:background="@color/colorBai"
+               android:layout_width="0.85dp"
+               android:layout_height="10.25dp"/>
+           <RelativeLayout
+               android:gravity="center_vertical"
+               android:layout_marginLeft="10dp"
+               android:background="@drawable/search"
+               android:layout_width="160dp"
+               android:layout_height="22dp">
+               <EditText
+                   android:id="@+id/aurhortiy_edit"
+                   android:layout_marginLeft="10dp"
+                   android:background="@null"
+                   android:hint="请输入查询内容"
+                   android:textColor="#ff323232"
+                   android:textSize="8sp"
+                   android:layout_width="100dp"
+                   android:layout_height="wrap_content"/>
+               <ImageView
+
+                   android:id="@+id/aurhortiy_bt"
+                   android:layout_alignParentRight="true"
+                   android:layout_marginRight="10dp"
+                   android:background="@mipmap/image_search"
+                   android:layout_width="11.1dp"
+                   android:layout_height="11.95dp"/>
+           </RelativeLayout>
+       </LinearLayout>
+   </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:layout_marginBottom="10dp"
+            android:id="@+id/aurhortiy_smart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/aurhortiy_recy"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </LinearLayout>
+</LinearLayout>

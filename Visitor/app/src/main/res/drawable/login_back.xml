@@ -10,7 +10,7 @@
 <solid android:color="@color/colorBai"/>
     <!-- android:radius 圆角的半径 -->
     <corners
-        android:radius="10dp"
+        android:radius="4dp"
         />
 
 </shape>

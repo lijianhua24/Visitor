@@ -4,4 +4,7 @@
     <string name="bt_two">记录查询</string>
     <string name="bt_three">权限管理</string>
     <string name="bt_four">系统设置</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#F6F7FB"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.SettingsActivity">
+    <include layout="@layout/head_layout"/>
+   <LinearLayout
+       android:orientation="vertical"
+       android:layout_marginTop="10dp"
+       android:layout_marginLeft="10dp"
+       android:layout_marginRight="10dp"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <LinearLayout
+           android:orientation="horizontal"
+           android:layout_width="wrap_content"
+           android:layout_height="22dp">
+           <TextView
+               android:text="模式设置"
+               android:id="@+id/settings_model"
+               android:gravity="center"
+               android:background="@drawable/bg_shape"
+               android:textColor="@color/colorBai"
+               android:textSize="8sp"
+               android:layout_width="108dp"
+               android:layout_height="22dp"/>
+           <TextView
+               android:text="设备绑定"
+               android:id="@+id/settings_bind"
+               android:gravity="center"
+               android:textColor="@color/colorBlack"
+               android:textSize="8sp"
+               android:layout_width="108dp"
+               android:layout_height="22dp"/>
+       </LinearLayout>
+
+       <FrameLayout
+           android:background="@color/colorBai"
+           android:layout_marginBottom="10dp"
+           android:id="@+id/settings_fragment"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"></FrameLayout>
+   </LinearLayout>
+</LinearLayout>

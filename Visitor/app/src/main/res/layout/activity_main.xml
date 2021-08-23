@@ -19,12 +19,12 @@
         android:orientation="horizontal"
         android:layout_marginTop="120dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
+        android:layout_height="220dp">
+       <!-- <LinearLayout
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_width="match_parent"
+            android:layout_width    ="match_parent"
             android:layout_height="match_parent">
             <Button
                 android:id="@+id/main_register"
@@ -47,16 +47,99 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <Button
+                android:id="@+id/main_authority"
                 android:text="@string/bt_three"
                 android:textSize="12sp"
                 android:layout_width="100dp"
                 android:layout_height="50dp"/>
             <Button
+                android:id="@+id/main_settings"
                 android:text="@string/bt_four"
                 android:textSize="12sp"
                 android:layout_marginTop="80dp"
                 android:layout_width="100dp"
                 android:layout_height="50dp"/>
+        </LinearLayout>-->
+        <LinearLayout
+            android:id="@+id/main_register"
+            android:gravity="center"
+            android:background="@color/colorBai"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:background="@mipmap/register_imag"
+                android:layout_width="74.5dp"
+                android:layout_height="74dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:text="访客登记"
+                android:textColor="#0050C8"
+                android:textSize="10sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:id="@+id/main_authority"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:background="@mipmap/authoriy_image"
+                android:layout_width="74.5dp"
+                android:layout_height="74dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:text="权限管理"
+                android:textColor="#0050C8"
+                android:textSize="10sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/main_inquire"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:background="@mipmap/inquire_image"
+                android:layout_width="74.5dp"
+                android:layout_height="74dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:text="记录查询"
+                android:textColor="#0050C8"
+                android:textSize="10sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:id="@+id/main_settings"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:background="@mipmap/setting_image"
+                android:layout_width="74.5dp"
+                android:layout_height="74dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:text="系统设置"
+                android:textColor="#0050C8"
+                android:textSize="10sp"
+                />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
