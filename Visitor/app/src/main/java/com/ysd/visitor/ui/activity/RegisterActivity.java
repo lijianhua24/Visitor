@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.hardware.display.DisplayManager;
+import android.hardware.usb.UsbManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +20,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -44,7 +46,9 @@ import com.megvii.facepp.multi.sdk.FaceDetectApi;
 import com.megvii.facepp.multi.sdk.FacePPImage;
 import com.ysd.visitor.R;
 import com.ysd.visitor.adapter.CheckedModelListAdapter;
+import com.ysd.visitor.adapter.ListProAdapter;
 import com.ysd.visitor.adapter.RegisterAdapter;
+import com.ysd.visitor.adapter.TimeAdapter;
 import com.ysd.visitor.app.App;
 import com.ysd.visitor.base.BaseActivity;
 import com.ysd.visitor.bean.CheckedModelListBean;
@@ -88,8 +92,8 @@ import static com.facebook.imagepipeline.nativecode.NativeJpegTranscoder.TAG;
 public class RegisterActivity extends BaseActivity<RegisterPresenter> implements ViewTreeObserver.OnGlobalLayoutListener, CameraListener, SeekBar.OnSeekBarChangeListener, HomeContract.getSubmitVisitorInfo.IView {
 
     private RoundTextureView register_round;
-    private SimpleDraweeView register_image;
-    private Button register_bt, register_bb;
+    private ImageView register_image;
+    private Button register_bt, register_bb, register_read, register_finsh;
     private CameraHelper cameraHelper;
     private Camera.Size previewSize;
     String filepath = "";
@@ -97,6 +101,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     private String name;
     private String idcard;
     private String sex;
+    private ArrayList<String> list_pro = new ArrayList<>();
+    private ArrayList<String> list_time = new ArrayList<>();
     DisplayManager mDisplayManager;//屏幕管理类
     Display[] displays;//屏幕数组
     Handler h = new Handler() {
@@ -126,7 +132,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                     name = ic.getPeopleName();
                     idcard = ic.getIDCard();
                     sex = ic.getSex();
-                    register_name.setText( ic.getPeopleName());
+                    register_name.setText(ic.getPeopleName());
                     register_carid.setText(ic.getIDCard());
                     Log.d("TAG", "handleMessage: " + "证件类型：身份证\n" + "姓名："
                             + ic.getPeopleName() + "\n" + "性别：" + ic.getSex()
@@ -143,8 +149,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                         name = ic.getPeopleName();
                         idcard = ic.getIDCard();
                         sex = ic.getSex();
-                        register_name.setText( ic.getPeopleName());
-                        register_carid.setText( ic.getIDCard());
+                        register_name.setText(ic.getPeopleName());
+                        register_carid.setText(ic.getIDCard());
                         Log.d("TAG", "handleMessage: " + "证件类型：港澳台居住证（J）\n"
                                 + "姓名：" + ic.getPeopleName() + "\n" + "性别："
                                 + ic.getSex() + "\n"
@@ -161,8 +167,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                             name = ic.getPeopleName();
                             idcard = ic.getIDCard();
                             sex = ic.getSex();
-                            register_name.setText( ic.getPeopleName());
-                            register_carid.setText( ic.getIDCard());
+                            register_name.setText(ic.getPeopleName());
+                            register_carid.setText(ic.getIDCard());
                             Log.d("TAG", "handleMessage: " + "证件类型：外国人永久居留证（I）\n"
                                     + "英文名称：" + ic.getPeopleName() + "\n"
                                     + "中文名称：" + ic.getstrChineseName() + "\n"
@@ -239,6 +245,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     private String data_name;
     private String devCode;
     private Dialog dialog;
+    private int ret;
+    private RecyclerView register_efficient_recy, register_purpose_recy;
 
     @Override
     protected RegisterPresenter providePresenter() {
@@ -248,6 +256,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     @Override
     protected void initData() {
         initCamera();
+
       /*  mDisplayManager = (DisplayManager) RegisterActivity.this.getSystemService(Context.DISPLAY_SERVICE);
         displays = mDisplayManager.getDisplays(); //得到显示器数组
         SecondScreen mPresentation = new SecondScreen(getApplicationContext(), displays[1], R.layout.camera_layout);//displays[1]是副屏
@@ -258,19 +267,36 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         String s = new Gson().toJson(hashMap);
         RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
         mPresenter.getCheckedModelListPresenter(requestBody);
-        register_purpose.setOnClickListener(new View.OnClickListener() {
+        register_read.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onConstellationPicker(v);
+                if (isCheck) {
+                    if (api.Authenticate(200, 200) != 1) {
+                        Toast.makeText(RegisterActivity.this, "卡认证失败", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    HSIDCardInfo ici = new HSIDCardInfo();
+                    if (api.ReadCard(ici, 200, 1300) == 1) {
+                        Message msg = Message.obtain();
+                        msg.obj = ici;
+                        msg.what = HandlerMsg.READ_SUCCESS;
+                        h.sendMessage(msg);
+                    }
+                } else {
+                    inID();
+                }
             }
         });
+        /*register_purpose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //onConstellationPicker(v);
+                myPurpose();
+            }
+        });*/
+        myPurpose();
+        myTime();
 
-        register_efficient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onConstellationTimePicker(v);
-            }
-        });
         register_bb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -283,50 +309,81 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                         sex = "2";
                     }
                     if (data_name.contains("二维码")) {
-                        String s1 = bitmapToBase64(bitmap1);
-                        HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("devcode", token);
-                        hashMap.put("name", name);
-                        hashMap.put("idcard", idcard);
-                        hashMap.put("sex", sex);
-                        hashMap.put("phone", phone);
-                        hashMap.put("type", value);
-                        hashMap.put("purpose", itemType);
-                        hashMap.put("limit", itemTime);
-                        hashMap.put("photo", "data:image/jpeg;base64," + s1);
-                        String s = new Gson().toJson(hashMap);
-                        RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
-                        mPresenter.getSubmitVisitorInfoPresenter(requestBody);
+                        if (itemType != null) {
+                            if (itemTime != null) {
+                                if (!phone.isEmpty()) {
+                                    String s1 = bitmapToBase64(bitmap1);
+                                    HashMap<String, String> hashMap = new HashMap<>();
+                                    hashMap.put("devcode", token);
+                                    hashMap.put("name", name);
+                                    hashMap.put("idcard", idcard);
+                                    hashMap.put("sex", sex);
+                                    hashMap.put("phone", phone);
+                                    hashMap.put("type", value);
+                                    hashMap.put("purpose", itemType);
+                                    hashMap.put("limit", itemTime);
+                                    hashMap.put("photo", "data:image/jpeg;base64," + s1);
+                                    String s = new Gson().toJson(hashMap);
+                                    RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
+                                    mPresenter.getSubmitVisitorInfoPresenter(requestBody);
+                                } else {
+                                    Toast.makeText(RegisterActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "请选择权限有效期", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "请选择来访目的", Toast.LENGTH_SHORT).show();
+                        }
+
                     } else {
-                        String s1 = bitmapToBase64(bitmap1);
-                        HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("devcode", token);
-                        hashMap.put("name", name);
-                        hashMap.put("idcard", idcard);
-                        hashMap.put("sex", sex);
-                        //hashMap.put("phone", phone);
-                        hashMap.put("type", value);
-                        hashMap.put("purpose", itemType);
-                        hashMap.put("limit", itemTime);
-                        hashMap.put("photo", "data:image/jpeg;base64," + s1);
-                        String s = new Gson().toJson(hashMap);
-                        RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
-                        mPresenter.getSubmitVisitorInfoPresenter(requestBody);
+                        if (itemType != null) {
+                            if (itemTime != null) {
+                                String s1 = bitmapToBase64(bitmap1);
+                                HashMap<String, String> hashMap = new HashMap<>();
+                                hashMap.put("devcode", token);
+                                hashMap.put("name", name);
+                                hashMap.put("idcard", idcard);
+                                hashMap.put("sex", sex);
+                                //hashMap.put("phone", phone);
+                                hashMap.put("type", value);
+                                hashMap.put("purpose", itemType);
+                                hashMap.put("limit", itemTime);
+                                hashMap.put("photo", "data:image/jpeg;base64," + s1);
+                                String s = new Gson().toJson(hashMap);
+                                RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
+                                mPresenter.getSubmitVisitorInfoPresenter(requestBody);
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "请选择权限有效期", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "请选择来访目的", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
 
                 } else if (data_name.contains("快捷")) {
-                    String phone = register_efficient_phone.getText().toString();
-                    HashMap<String, String> hashMap = new HashMap<>();
-                    hashMap.put("devcode", token);
-                    hashMap.put("name", name);
-                    hashMap.put("idcard", idcard);
-                    hashMap.put("phone", phone);
-                    hashMap.put("type", value);
-                    hashMap.put("purpose", itemType);
-                    hashMap.put("limit", itemTime);
-                    String s = new Gson().toJson(hashMap);
-                    RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
-                    mPresenter.getSubmitVisitorInfosPresenter(requestBody);
+                    if (itemType != null) {
+                        if (itemTime != null) {
+                            String phone = register_efficient_phone.getText().toString();
+                            HashMap<String, String> hashMap = new HashMap<>();
+                            hashMap.put("devcode", token);
+                            hashMap.put("name", name);
+                            hashMap.put("idcard", idcard);
+                            hashMap.put("phone", phone);
+                            hashMap.put("type", value);
+                            hashMap.put("purpose", itemType);
+                            hashMap.put("limit", itemTime);
+                            String s = new Gson().toJson(hashMap);
+                            RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
+                            mPresenter.getSubmitVisitorInfosPresenter(requestBody);
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "请选择权限有效期", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "请选择来访目的", Toast.LENGTH_SHORT).show();
+                    }
+
                 } else {
                     Toast.makeText(RegisterActivity.this, "请完成人脸采集", Toast.LENGTH_SHORT).show();
                 }
@@ -336,11 +393,24 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         register_recy.setLayoutManager(linearLayoutManager);
+
+        list_pro.add("外卖");
+        list_pro.add("面试");
+        list_pro.add("访客");
+        list_pro.add("找人");
+        list_pro.add("保洁");
+        list_pro.add("客户");
+        list_time.add("10分钟");
+        list_time.add("20分钟");
+        list_time.add("30分钟");
+        list_time.add("60分钟");
+        list_time.add("80分钟");
+        list_time.add("100分钟");
+        list_time.add("120分钟");
     }
 
     @Override
     protected void initView() {
-
         token = App.sharedPreferences.getString("token", null);
         decimalFormat = new DecimalFormat("0.00");
         filepath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/wltlib";// 授权目录
@@ -360,8 +430,12 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         register_efficient_linear = findViewById(R.id.register_efficient_linear);
         register_efficient_phone = findViewById(R.id.register_efficient_phone);
         register_contrast = findViewById(R.id.register_contrast);
-        LinearLayout car_head_linear = findViewById(R.id.car_head_linear);
-        car_head_linear.setOnClickListener(new View.OnClickListener() {
+        register_read = findViewById(R.id.register_read);
+        register_efficient_recy = findViewById(R.id.register_efficient_recy);
+        register_purpose_recy = findViewById(R.id.register_purpose_recy);
+        register_finsh = findViewById(R.id.register_finsh);
+
+        register_finsh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -417,12 +491,22 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         copy(RegisterActivity.this, "base.dat", "base.dat", filepath);
         copy(RegisterActivity.this, "license.lic", "license.lic", filepath);
         api = new HsOtgApi(h, RegisterActivity.this);
-        int ret = api.init();// 因为第一次需要点击授权，所以第一次点击时候的返回是-1所以我利用了广播接受到授权后用handler发送消息
-        if (ret == 1) {
-            Toast.makeText(this, "连接成功", Toast.LENGTH_SHORT).show();
-            new Thread(new CPUThread()).start();
-        } else {
-            Toast.makeText(this, "连接失败", Toast.LENGTH_SHORT).show();
+
+        for (int i = 0; i < 20; i++) {
+            ret = api.init();
+
+            // 因为第一次需要点击授权，所以第一次点击时候的返回是-1所以我利用了广播接受到授权后用handler发送消息
+
+            if (ret == 1) {
+                Toast.makeText(this, "连接成功", Toast.LENGTH_SHORT).show();
+                // new Thread(new CPUThread()).start();
+                isCheck = true;
+                break;
+            } else {
+                //Toast.makeText(this, "连接失败", Toast.LENGTH_SHORT).show();
+                ret = api.init();
+                isCheck = false;
+            }
         }
 
     }
@@ -431,47 +515,10 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     @Override
     public void onSubmitVisitorInfoSuccess(Object data) {
 
-        /*if (data.getCode() == 0){
-
-            if (data_name.contains("二维码")){
-                Object data1 = data.getData();
-                String s = String.valueOf(data1);
-
-            }else else {
-
-            }
-        }else {
-            Toast.makeText(this, ""+data.getMsg(), Toast.LENGTH_SHORT).show();
-        }*/
-        /*if (data_name.contains("二维码")) {
-            SubmitVisitorInfoBean data1 = (SubmitVisitorInfoBean) data;
-            if (data1.getCode() == 0) {
-                Toast.makeText(this, "登记成功", Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(this, "" + data1.getMsg(), Toast.LENGTH_SHORT).show();
-            }
-        } else if (data_name.contains("快捷")) {
-            ListBean listBean = (ListBean) data;
-            if (listBean.getCode() == 0) {
-                Toast.makeText(this, "登记成功", Toast.LENGTH_SHORT).show();
-                List<ListBean.DataBean> data1 = listBean.getData();
-
-            } else {
-                Toast.makeText(this, "" + listBean.getMsg(), Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            VisitorBanedBean visitorBanedBean = (VisitorBanedBean) data;
-            if (visitorBanedBean.getCode() == 0) {
-                Toast.makeText(this, "登记成功", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "" + visitorBanedBean.getMsg(), Toast.LENGTH_SHORT).show();
-            }
-        }*/
         if (data instanceof SubmitVisitorInfoBean) {
             if (((SubmitVisitorInfoBean) data).getCode() == 0) {
                 Toast.makeText(this, "登记成功", Toast.LENGTH_SHORT).show();
-                if (data_name.contains("二维码")){
+                if (data_name.contains("二维码")) {
                     Object data1 = ((SubmitVisitorInfoBean) data).getData();
                     String code = String.valueOf(data1);
                     mDisplayManager = (DisplayManager) RegisterActivity.this.getSystemService(Context.DISPLAY_SERVICE);
@@ -496,6 +543,9 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     @Override
     public void onSubmitVisitorInfosSuccess(Object data) {
+        bmp = null;
+        bitmap1 = null;
+        check = false;
         if (data_name.contains("快捷")) {
             ListBean listBean = (ListBean) data;
             List<ListBean.DataBean> list = listBean.getData();
@@ -514,7 +564,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
             RegisterAdapter registerAdapter = new RegisterAdapter(RegisterActivity.this, list);
             recyclerView.setAdapter(registerAdapter);
             registerAdapter.getChange(new RegisterAdapter.setListnter() {
-                @Override
+                 @Override
                 public void getListenter(int i) {
                     registerAdapter.setmPosition(i);
                     devCode = list.get(i).getDevCode();
@@ -544,6 +594,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     public void onCheckedModelListSuccess(CheckedModelListBean data) {
         if (data.getCode() == 0) {
             List<CheckedModelListBean.DataBean> data1 = data.getData();
+            data_name = data1.get(0).getName();
             checkedModelListAdapter = new CheckedModelListAdapter(this, data1);
             register_recy.setAdapter(checkedModelListAdapter);
             checkedModelListAdapter.getChange(new CheckedModelListAdapter.setListnter() {
@@ -558,8 +609,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                         register_efficient_linear.setVisibility(View.VISIBLE);
                         register_name.setEnabled(false);
                         register_carid.setEnabled(false);
-                        register_carid.setHint("");
-                        register_name.setHint("");
+                        register_carid.setHint("请读取身份证");
+                        register_name.setHint("请读取身份证");
                     } else if (data_name.contains("快捷")) {
                         register_efficient_linear.setVisibility(View.VISIBLE);
                         register_name.setEnabled(true);
@@ -570,8 +621,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                     } else {
                         register_name.setEnabled(false);
                         register_carid.setEnabled(false);
-                        register_carid.setHint("");
-                        register_name.setHint("");
+                        register_carid.setHint("请读取身份证");
+                        register_name.setHint("请读取身份证");
                         register_contrast.setVisibility(View.VISIBLE);
                         register_efficient_linear.setVisibility(View.GONE);
                     }
@@ -587,8 +638,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     @Override
     public void onOpenDoorSuccess(VisitorBanedBean data) {
-        Toast.makeText(this, ""+data.getMsg(), Toast.LENGTH_SHORT).show();
-        if (data.getCode() == 0){
+        Toast.makeText(this, "" + data.getMsg(), Toast.LENGTH_SHORT).show();
+        if (data.getCode() == 0) {
             dialog.dismiss();
         }
     }
@@ -669,7 +720,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     }
 
-    public class CPUThread extends Thread {
+    /*public class CPUThread extends Thread {
         public CPUThread() {
             super();
         }
@@ -679,15 +730,20 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
             super.run();
             HSIDCardInfo ici;
             Message msg;
-            while (isCheck) {
+            while (false) {
                 if (api != null) {
-                    if (api.Authenticate(200, 200) != 1) {
+                    if (api == null) {
+                        api = new HsOtgApi(h, RegisterActivity.this);
+                    }
+                    int authenticate = api.Authenticate(200, 200);
+                    if (authenticate != 1) {
                         msg = Message.obtain();
                         msg.what = HandlerMsg.READ_ERROR;
                         h.sendMessage(msg);
                     } else {
                         ici = new HSIDCardInfo();
-                        if (api.ReadCard(ici, 200, 1300) == 1) {
+                        int i = api.ReadCard(ici, 200, 1300);
+                        if (i == 1) {
                             msg = Message.obtain();
                             msg.obj = ici;
                             msg.what = HandlerMsg.READ_SUCCESS;
@@ -699,7 +755,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
             }
 
         }
-    }
+    }*/
 
 
     private void copy(Context context, String fileName, String saveName,
@@ -780,6 +836,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         if (api == null) {
             return;
         }
+
         api.unInit();
     }
 
@@ -898,92 +955,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     }
 
 
-    public void onConstellationPicker(View view) {
-        boolean isChinese = Locale.getDefault().getDisplayLanguage().contains("中文");
-        SinglePicker<String> picker = new SinglePicker<>(this,
-                isChinese ? new String[]{
-                        "面试", "外卖", "访客", "客户", "找人"
-                } : new String[]{
-                        "Aquarius", "Pisces", "Aries", "Taurus", "Gemini"
-                });
-        picker.setCanLoop(false);//不禁用循环
-        picker.setTopBackgroundColor(0xFFEEEEEE);
-        picker.setTopHeight(50);
-        picker.setTopLineColor(0xFF33B5E5);
-        picker.setTopLineHeight(1);
-        picker.setTitleText(isChinese ? "请选择" : "Please pick");
-        picker.setTitleTextColor(0xFF999999);
-        picker.setTitleTextSize(12);
-        picker.setCancelTextColor(0xFF33B5E5);
-        picker.setCancelTextSize(13);
-        picker.setSubmitTextColor(0xFF33B5E5);
-        picker.setSubmitTextSize(13);
-        picker.setSelectedTextColor(0xFFEE0000);
-        picker.setUnSelectedTextColor(0xFF999999);
-        LineConfig config = new LineConfig();
-        config.setColor(Color.BLUE);//线颜色
-        config.setAlpha(120);//线透明度
-//        config.setRatio(1);//线比率
-        picker.setLineConfig(config);
-        picker.setItemWidth(200);
-        picker.setBackgroundColor(0xFFE1E1E1);
-        //picker.setSelectedItem(isChinese ? "处女座" : "Virgo");
-        picker.setSelectedIndex(7);
-        picker.setOnItemPickListener(new OnItemPickListener<String>() {
-            @Override
-            public void onItemPicked(int index, String item) {
-                register_purpose_text.setText(item);
-                register_purpose_text.setTextColor(RegisterActivity.this.getResources().getColor(R.color.colorBlack));
-                RegisterActivity.this.itemType = item;
-                //ToastUtils.showShort("index=" + index + ", item=" + item);
-            }
-        });
-        picker.show();
-    }
-
-    public void onConstellationTimePicker(View view) {
-        boolean isChinese = Locale.getDefault().getDisplayLanguage().contains("中文");
-        SinglePicker<String> picker = new SinglePicker<>(this,
-                isChinese ? new String[]{
-                        "30分钟", "45分钟", "60分钟", "80分钟", "100分种"
-                } : new String[]{
-                        "30", "45", "60", "80", "100"
-                });
-        picker.setCanLoop(true);//不禁用循环
-        picker.setTopBackgroundColor(0xFFEEEEEE);
-        picker.setTopHeight(50);
-        picker.setTopLineColor(0xFF33B5E5);
-        picker.setTopLineHeight(1);
-        picker.setTitleText(isChinese ? "请选择" : "Please pick");
-        picker.setTitleTextColor(0xFF999999);
-        picker.setTitleTextSize(12);
-        picker.setCancelTextColor(0xFF33B5E5);
-        picker.setCancelTextSize(13);
-        picker.setSubmitTextColor(0xFF33B5E5);
-        picker.setSubmitTextSize(13);
-        picker.setSelectedTextColor(0xFFEE0000);
-        picker.setUnSelectedTextColor(0xFF999999);
-        LineConfig config = new LineConfig();
-        config.setColor(Color.BLUE);//线颜色
-        config.setAlpha(120);//线透明度
-//        config.setRatio(1);//线比率
-        picker.setLineConfig(config);
-        picker.setItemWidth(200);
-        picker.setBackgroundColor(0xFFE1E1E1);
-        //picker.setSelectedItem(isChinese ? "处女座" : "Virgo");
-        picker.setSelectedIndex(7);
-        picker.setOnItemPickListener(new OnItemPickListener<String>() {
-            @Override
-            public void onItemPicked(int index, String item) {
-                register_efficient_tv.setText(item);
-                register_efficient_tv.setTextColor(RegisterActivity.this.getResources().getColor(R.color.colorBlack));
-                String[] split = item.split("分钟");
-                RegisterActivity.this.itemTime = split[0];
-            }
-        });
-        picker.show();
-    }
-
     /**
      * bitmap转为base64
      *
@@ -1020,5 +991,64 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         return result;
     }
 
+    private void myPurpose() {
 
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(RegisterActivity.this, RecyclerView.HORIZONTAL, false);
+        register_purpose_recy.setLayoutManager(linearLayoutManager);
+        TimeAdapter timeAdapter = new TimeAdapter(RegisterActivity.this, list_pro);
+        if (itemType != null) {
+            for (int i = 0; i < list_pro.size(); i++) {
+                if (list_pro.get(i).contains(itemType)) {
+                    timeAdapter.setmPosition(i);
+                    timeAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+        register_purpose_recy.setAdapter(timeAdapter);
+        timeAdapter.getChange(new TimeAdapter.setListnter() {
+            @Override
+            public void getListenter(int i) {
+                timeAdapter.setmPosition(i);
+                timeAdapter.notifyDataSetChanged();
+                RegisterActivity.this.itemType = list_pro.get(i);
+                if (itemType == null) {
+                    itemType = list_pro.get(0);
+                }
+                register_purpose_text.setText(itemType);
+                register_purpose_text.setTextColor(RegisterActivity.this.getResources().getColor(R.color.colorBlack));
+
+            }
+        });
+
+    }
+
+    private void myTime() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(RegisterActivity.this, RecyclerView.HORIZONTAL, false);
+        register_efficient_recy.setLayoutManager(linearLayoutManager);
+        ListProAdapter timeAdapter = new ListProAdapter(RegisterActivity.this, list_time);
+        if (itemTime != null) {
+            for (int i = 0; i < list_time.size(); i++) {
+                if (list_time.get(i).contains(itemTime)) {
+                    timeAdapter.setmPosition(i);
+                    timeAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+        register_efficient_recy.setAdapter(timeAdapter);
+        timeAdapter.getChange(new ListProAdapter.setListnter() {
+            @Override
+            public void getListenter(int i) {
+                timeAdapter.setmPosition(i);
+                timeAdapter.notifyDataSetChanged();
+                RegisterActivity.this.itemTime = list_time.get(i);
+                if (itemTime == null) {
+                    itemTime = list_time.get(0);
+                }
+                register_efficient_tv.setText(itemTime);
+                register_efficient_tv.setTextColor(RegisterActivity.this.getResources().getColor(R.color.colorBlack));
+
+            }
+        });
+    }
 }

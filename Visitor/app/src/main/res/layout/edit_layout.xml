@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="@drawable/login_back"
+    android:background="@drawable/authority"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -24,7 +24,7 @@
                     android:layout_height="wrap_content"/>
                 <EditText
                     android:id="@+id/car_xinsi_edit"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -42,7 +42,7 @@
             <Button
                 android:id="@+id/car_xinsi_quxiao"
                 android:text="取消"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@color/colorBlack"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -55,7 +55,7 @@
                 android:text="同意"
                 android:textColor="@color/colorBlack"
                 android:background="@color/colorBai"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="1dp"

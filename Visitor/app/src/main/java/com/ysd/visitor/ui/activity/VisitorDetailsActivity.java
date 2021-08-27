@@ -74,6 +74,8 @@ public class VisitorDetailsActivity extends BaseActivity<VisitorDetailsPresenter
         String s = new Gson().toJson(hashMap);
         RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
         mPresenter.getVisitorRightsPresenter(requestBody);
+        TextView car_name = findViewById(R.id.car_name);
+        car_name.setText("权限设置");
     }
 
     @Override

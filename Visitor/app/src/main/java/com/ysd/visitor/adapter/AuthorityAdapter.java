@@ -47,7 +47,7 @@ public class AuthorityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 Uri parse = Uri.parse(imgUrl);
                 Log.d("TAG", "onBindViewHolder: " + parse);
                 //((myAuthorityAdapter) holder).image.setImageURI(parse);
-                Glide.with(context).load(imgUrl).into(((myAuthorityAdapter) holder).image);
+                Glide.with(context).load(imgUrl).placeholder(R.mipmap.zhanwei).error(R.mipmap.zhanwei).into(((myAuthorityAdapter) holder).image);
 
             }
 
@@ -73,6 +73,9 @@ public class AuthorityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 String s = TimeUtil.timeYMDChinese(aLong);
                 ((myAuthorityAdapter) holder).leavetime.setText(s);
             }
+            //来访目的
+            String purpose = list.get(position).getPurpose();
+            ((myAuthorityAdapter) holder).purpose.setText(purpose);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -93,7 +96,7 @@ public class AuthorityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class myAuthorityAdapter extends RecyclerView.ViewHolder {
 
-        private final TextView name, idcad, creantime, leavetime;
+        private final TextView name, idcad, creantime, leavetime,purpose;
         private final ImageView image;
 
         public myAuthorityAdapter(@NonNull View itemView) {
@@ -103,6 +106,7 @@ public class AuthorityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             creantime = itemView.findViewById(R.id.aurhortiy_adapter_creantime);
             leavetime = itemView.findViewById(R.id.aurhortiy_adapter_leavetime);
             image = itemView.findViewById(R.id.aurhortiy_adapter_simple);
+            purpose = itemView.findViewById(R.id.aurhortiy_adapter_purpose);
         }
     }
 }

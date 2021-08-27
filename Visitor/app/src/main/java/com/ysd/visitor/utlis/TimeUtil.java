@@ -34,7 +34,7 @@ public class TimeUtil {
 
     //根据时间戳获取当前时间
     public static String getTime(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日  HH：mm：ss");// HH:mm:ss
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日  HH:mm:ss");// HH:mm:ss
         java.util.Date date = new java.util.Date(System.currentTimeMillis());
         return simpleDateFormat.format(date);
     }

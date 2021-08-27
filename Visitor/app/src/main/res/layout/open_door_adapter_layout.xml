@@ -16,20 +16,14 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/detalis_adapter_name"
+                android:id="@+id/open_adapter_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="南门门禁"
                 android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/detalis_adapter_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="33.5dp"
-                android:text="BDD8002DCE0C8F27"
-                android:textSize="12sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -40,21 +34,7 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/detalis_adapter_blackstatus"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:background="#003ECB"
-                android:gravity="center"
-                android:paddingLeft="9.5dp"
-                android:paddingTop="2.5dp"
-                android:paddingRight="9.5dp"
-                android:paddingBottom="2.5dp"
-                android:text="拉黑"
-                android:textColor="#ffffffff"
-                android:textSize="11sp" />
-
-            <TextView
-                android:id="@+id/detalis_adapter_loadstatus"
+                android:id="@+id/open_adapter_loadstatus"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_marginLeft="10dp"
@@ -63,7 +43,7 @@
                 android:paddingTop="2.5dp"
                 android:paddingRight="9.5dp"
                 android:paddingBottom="2.5dp"
-                android:text="下发权限"
+                android:text="开门"
                 android:textColor="#ffffffff"
                 android:textSize="11sp" />
         </LinearLayout>

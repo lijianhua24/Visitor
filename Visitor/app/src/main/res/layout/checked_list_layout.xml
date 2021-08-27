@@ -6,7 +6,7 @@
         android:text="@string/bt_three"
         android:gravity="center"
         android:textColor="@color/colorBlack"
-        android:textSize="8sp"
+        android:textSize="11sp"
         android:id="@+id/cheecked_name"
         android:layout_width="108dp"
         android:layout_height="match_parent"/>

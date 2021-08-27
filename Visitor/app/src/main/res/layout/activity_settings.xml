@@ -18,24 +18,24 @@
        <LinearLayout
            android:orientation="horizontal"
            android:layout_width="wrap_content"
-           android:layout_height="22dp">
+           android:layout_height="26dp">
            <TextView
                android:text="模式设置"
                android:id="@+id/settings_model"
                android:gravity="center"
                android:background="@drawable/bg_shape"
                android:textColor="@color/colorBai"
-               android:textSize="8sp"
+               android:textSize="12sp"
                android:layout_width="108dp"
-               android:layout_height="22dp"/>
+               android:layout_height="match_parent"/>
            <TextView
                android:text="设备绑定"
                android:id="@+id/settings_bind"
                android:gravity="center"
                android:textColor="@color/colorBlack"
-               android:textSize="8sp"
+               android:textSize="12sp"
                android:layout_width="108dp"
-               android:layout_height="22dp"/>
+               android:layout_height="match_parent"/>
        </LinearLayout>
 
        <FrameLayout

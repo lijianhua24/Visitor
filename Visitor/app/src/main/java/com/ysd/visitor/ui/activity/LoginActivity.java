@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.display.DisplayManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -42,8 +43,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements HomeC
     private EditText login_password, login_phone;
     private Button login_complete;
     private Dialog mWeiboDialogUtils;
-    DisplayManager mDisplayManager;//屏幕管理类
-    Display[] displays;//屏幕数组
+
     @Override
     protected LoginPresenter providePresenter() {
         return new LoginPresenter();
@@ -111,19 +111,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements HomeC
     public void onAdverListSuccess(GetAdverListBean data) {
         if (data.getCode() == 0) {
             List<GetAdverListBean.DataBean> data1 = data.getData();
-            mDisplayManager = (DisplayManager) LoginActivity.this.getSystemService(Context.DISPLAY_SERVICE);
-            displays = mDisplayManager.getDisplays(); //得到显示器数组
-            SecondScreen mPresentations = new SecondScreen(getApplicationContext(), displays[1], R.layout.second);//displays[1]是副屏
-            mPresentations.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-            mPresentations.show();
-            XBanner second_xbanner = mPresentations.findViewById(R.id.second_xbanner);
-            second_xbanner.setData(data1, null);
-            second_xbanner.setmAdapter(new XBanner.XBannerAdapter() {
-                @Override
-                public void loadBanner(XBanner banner, Object model, View view, int position) {
-                    Glide.with(LoginActivity.this).load(data1.get(position).getUrl()).into((ImageView) view);
-                }
-            });
+            String url = data1.get(0).getUrl();
+            App.sharedPreferences.edit().putString("imageuri",url).commit();
+
+
+
+
         }
     }
 

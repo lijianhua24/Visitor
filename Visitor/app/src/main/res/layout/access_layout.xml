@@ -2,16 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:background="@color/colorBai"
+    android:background="@drawable/authority"
     android:orientation="vertical">
-
+    <TextView
+        android:id="@+id/access_text"
+        android:text="请选择"
+        android:textColor="@color/colorBlack"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
    <LinearLayout
        android:orientation="vertical"
        android:gravity="center"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
        <androidx.recyclerview.widget.RecyclerView
+           android:layout_marginLeft="10dp"
+           android:layout_marginRight="10dp"
            android:id="@+id/access_recy"
            android:layout_width="match_parent"
            android:layout_height="wrap_content" />

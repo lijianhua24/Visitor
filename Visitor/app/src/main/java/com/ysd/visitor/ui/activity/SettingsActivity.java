@@ -70,6 +70,8 @@ public class SettingsActivity extends BaseActivity {
         settings_model = findViewById(R.id.settings_model);
         settings_bind = findViewById(R.id.settings_bind);
         LinearLayout car_head_linear = findViewById(R.id.car_head_linear);
+        TextView car_name = findViewById(R.id.car_name);
+        car_name.setText("系统设置");
         car_head_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

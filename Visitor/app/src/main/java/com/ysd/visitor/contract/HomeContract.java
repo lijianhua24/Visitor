@@ -54,6 +54,7 @@ public interface HomeContract {
         interface IPresenter {
 
             void getLoginPresenter(RequestBody params);
+
             void getAdverListPresenter(RequestBody params);
 
         }
@@ -392,8 +393,55 @@ public interface HomeContract {
             void getSubmitVisitorInfosPresenter(RequestBody params);
 
             void getCheckedModelListPresenter(RequestBody params);
+
             void getOpenDoorPresenter(RequestBody params);
 
         }
     }
+
+    interface getOPendoorList {
+        interface IModel {
+            void getOPendoorListModel(RequestBody params, IMOPendoorListCallback callback);
+
+            //model层中的接口回调
+            interface IMOPendoorListCallback {
+                void onOPendoorListSuccess(GetDoorDevsBean data);
+
+                void onOPendoorListFailure(Throwable e);
+            }
+
+            void getOPendoorModel(RequestBody params, IMOPendoorCallback callback);
+
+            //model层中的接口回调
+            interface IMOPendoorCallback {
+                void onOPendoorSuccess(VisitorBanedBean data);
+
+                void onOPendoorFailure(Throwable e);
+            }
+
+        }
+
+
+        //view层  命名必须是IView
+        interface IView extends IBaseView {
+            void onOPendoorListSuccess(GetDoorDevsBean data);
+
+            void onOPendoorListFailure(Throwable e);
+
+            void onOPendoorSuccess(VisitorBanedBean data);
+
+            void onOPendoorFailure(Throwable e);
+
+        }
+
+        //presenter层   命名必须是IPresenter
+        interface IPresenter {
+
+            void getOPendoorListPresenter(RequestBody params);
+
+            void getOPendoorPresenter(RequestBody params);
+
+        }
+    }
+
 }

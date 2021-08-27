@@ -9,7 +9,7 @@
 
     tools:context=".ui.activity.RegisterActivity">
 
-    <include layout="@layout/head_layout" />
+   <!-- <include layout="@layout/head_layout" />-->
 
     <!--<LinearLayout
         android:layout_width="match_parent"
@@ -251,7 +251,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/register_recy"
                 android:layout_width="match_parent"
-                android:layout_height="22dp" />
+                android:layout_height="35dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -274,7 +274,7 @@
                         android:paddingLeft="5dp"
                         android:text="基本信息"
                         android:textColor="#ff232735"
-                        android:textSize="8sp" />
+                        android:textSize="12sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -289,18 +289,19 @@
                             android:layout_height="wrap_content"
                             android:text="姓         名："
                             android:textColor="#ff232735"
-                            android:textSize="7sp" />
+                            android:textSize="11sp" />
 
                         <EditText
                             android:id="@+id/register_name"
-                            android:textSize="7sp"
-                            android:paddingLeft="5dp"
                             android:layout_width="153.5dp"
-                            android:layout_height="18dp"
+                            android:layout_height="23dp"
                             android:layout_marginLeft="2dp"
+                            android:hint="请读取身份证"
                             android:background="@drawable/text_border"
                             android:enabled="false"
-                            android:textColor="@color/colorBlack" />
+                            android:paddingLeft="5dp"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -316,23 +317,24 @@
                             android:layout_height="wrap_content"
                             android:text="身 份 证 号："
                             android:textColor="#ff232735"
-                            android:textSize="7sp" />
+                            android:textSize="11sp" />
 
                         <EditText
                             android:id="@+id/register_carid"
                             android:layout_width="153.5dp"
-                            android:textSize="7sp"
-                            android:paddingLeft="5dp"
-                            android:enabled="false"
-                            android:layout_height="18dp"
+                            android:hint="请读取身份证"
+                            android:layout_height="23dp"
                             android:layout_marginLeft="2dp"
                             android:background="@drawable/text_border"
-                            android:textColor="@color/colorBlack" />
+                            android:enabled="false"
+                            android:paddingLeft="5dp"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <RelativeLayout
                         android:id="@+id/register_purpose"
-                        android:layout_width="200dp"
+                        android:layout_width="220dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18.5dp"
                         android:layout_marginTop="10dp"
@@ -340,38 +342,45 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_marginTop="3dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
                             android:text="来访问目的："
                             android:textColor="#ff232735"
-                            android:textSize="7sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:id="@+id/register_purpose_text"
                             android:layout_width="153.5dp"
-                            android:layout_height="18dp"
-                            android:layout_marginLeft="44dp"
+                            android:layout_height="23dp"
+                            android:layout_marginLeft="70dp"
                             android:background="@drawable/text_border"
                             android:gravity="center_vertical"
                             android:hint="请选择"
                             android:paddingLeft="5dp"
                             android:textColor="@color/colorBlack"
-                            android:textSize="7sp" />
-                        <ImageView
-                            android:layout_marginTop="5dp"
-                            android:background="@mipmap/pull_image"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="7.5dp"
-                            android:layout_width="5dp"
-                            android:layout_height="3.5dp"/>
-                    </RelativeLayout>
+                            android:textSize="11sp" />
 
+                        <ImageView
+                            android:layout_width="5dp"
+                            android:layout_height="3.5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="7.5dp"
+                            android:background="@mipmap/pull_image" />
+                    </RelativeLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginRight="10dp"
+                        android:id="@+id/register_purpose_recy"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="8.5dp"
+                        android:layout_width="230dp"
+                        android:layout_height="30dp"/>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="220dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18.5dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -380,55 +389,65 @@
                             android:layout_height="wrap_content"
                             android:text="到 访 时 间："
                             android:textColor="#ff232735"
-                            android:textSize="7sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:id="@+id/register_time"
                             android:layout_width="153.5dp"
-                            android:layout_height="18dp"
-                            android:textSize="8sp"
+                            android:layout_height="23dp"
                             android:layout_marginLeft="2dp"
                             android:background="@drawable/text_border"
-                            android:textColor="@color/colorBlack" />
+                            android:gravity="center_vertical"
+                            android:paddingLeft="5dp"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <RelativeLayout
                         android:id="@+id/register_efficient"
-                        android:layout_width="200dp"
+                        android:layout_width="220dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18.5dp"
                         android:layout_marginTop="10dp"
+
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_marginTop="3dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
                             android:text="权限有效期："
                             android:textColor="#ff232735"
-                            android:textSize="7sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:id="@+id/register_efficient_tv"
                             android:layout_width="153.5dp"
-                            android:layout_height="18dp"
-                            android:layout_marginLeft="44dp"
+                            android:layout_height="23dp"
+                            android:layout_marginLeft="70dp"
                             android:background="@drawable/text_border"
                             android:gravity="center_vertical"
                             android:hint="请选择"
                             android:paddingLeft="5dp"
                             android:textColor="@color/colorBlack"
-                            android:textSize="7sp" />
-                        <ImageView
-                            android:layout_marginTop="5dp"
-                            android:background="@mipmap/pull_image"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="7.5dp"
-                            android:layout_width="5dp"
-                            android:layout_height="3.5dp"/>
-                    </RelativeLayout>
+                            android:textSize="11sp" />
 
+                        <ImageView
+                            android:layout_width="5dp"
+                            android:layout_height="3.5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="7.5dp"
+                            android:background="@mipmap/pull_image" />
+                    </RelativeLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/register_efficient_recy"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="8.5dp"
+                        android:layout_width="230dp"
+                        android:layout_height="30dp"/>
                     <LinearLayout
                         android:id="@+id/register_efficient_linear"
                         android:layout_width="match_parent"
@@ -442,21 +461,21 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="手机 号："
+                            android:text="手  机  号："
                             android:textColor="#ff232735"
-                            android:textSize="7sp" />
+                            android:textSize="11sp" />
 
                         <EditText
                             android:id="@+id/register_efficient_phone"
                             android:layout_width="153.5dp"
-                            android:layout_height="18dp"
+                            android:layout_height="23dp"
                             android:layout_marginLeft="2dp"
                             android:background="@drawable/text_border"
                             android:gravity="center_vertical"
-                            android:hint="请选择"
+                            android:hint="请输入"
                             android:paddingLeft="5dp"
                             android:textColor="@color/colorBlack"
-                            android:textSize="7sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -472,7 +491,7 @@
                             android:layout_height="wrap_content"
                             android:text="备         注："
                             android:textColor="#ff232735"
-                            android:textSize="7sp" />
+                            android:textSize="11sp" />
 
                         <EditText
                             android:id="@+id/register_efficient_edit"
@@ -502,19 +521,38 @@
                         android:paddingLeft="5dp"
                         android:text="人脸对比"
                         android:textColor="#ff232735"
-                        android:textSize="8sp" />
+                        android:textSize="12sp" />
 
                     <LinearLayout
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="20dp"
                         android:orientation="horizontal">
 
-                        <com.facebook.drawee.view.SimpleDraweeView
-                            android:id="@+id/register_image"
-                            android:layout_width="87dp"
-                            android:layout_height="87dp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/register_image"
+                                android:layout_width="100dp"
+                                android:layout_height="107dp"
+                                android:background="@mipmap/zhanwei" />
+
+                            <Button
+                                android:id="@+id/register_read"
+                                android:layout_width="70dp"
+                                android:layout_height="30dp"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/collection_bt"
+                                android:text="读卡"
+                                android:textColor="#ffffffff"
+                                android:textSize="12sp" />
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -537,13 +575,13 @@
 
                             <Button
                                 android:id="@+id/register_bt"
-                                android:layout_width="60dp"
-                                android:layout_height="25dp"
+                                android:layout_width="70dp"
+                                android:layout_height="30dp"
                                 android:layout_marginTop="10dp"
                                 android:background="@drawable/collection_bt"
                                 android:text="采集"
                                 android:textColor="#ffffffff"
-                                android:textSize="8sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -557,15 +595,23 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="7.5dp"
             android:gravity="center_horizontal">
-
+            <Button
+                android:id="@+id/register_finsh"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:background="@drawable/collection_bt"
+                android:text="退出"
+                android:textColor="#ffffffff"
+                android:textSize="12sp" />
             <Button
                 android:id="@+id/register_bb"
                 android:layout_width="80dp"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/collection_bt"
                 android:text="提交"
                 android:textColor="#ffffffff"
-                android:textSize="8sp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

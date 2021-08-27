@@ -18,7 +18,7 @@ import com.ysd.visitor.utlis.RequestNet;
 
 import okhttp3.RequestBody;
 
-public class HomeModel implements HomeContract.getLogin.IModel, HomeContract.getVisitorList.IModel, HomeContract.getVisitorRights.IModel, HomeContract.getModelList.IModel, HomeContract.getDoorDevs.IModel, HomeContract.getVisitorInOutRecord.IModel, HomeContract.getSubmitVisitorInfo.IModel {
+public class HomeModel implements HomeContract.getLogin.IModel, HomeContract.getVisitorList.IModel, HomeContract.getVisitorRights.IModel, HomeContract.getModelList.IModel, HomeContract.getDoorDevs.IModel, HomeContract.getVisitorInOutRecord.IModel, HomeContract.getSubmitVisitorInfo.IModel, HomeContract.getOPendoorList.IModel {
     @Override
     public void getLoginModel(RequestBody params, IMLoginCallback callback) {
         RequestNet.getInstance().create().getLogin(params)
@@ -339,6 +339,40 @@ public class HomeModel implements HomeContract.getLogin.IModel, HomeContract.get
                     @Override
                     public void onError(Throwable e) {
                         callback.onOpenDoorFailure(e);
+                    }
+                });
+    }
+
+    @Override
+    public void getOPendoorListModel(RequestBody params, IMOPendoorListCallback callback) {
+        RequestNet.getInstance().create().getDoorDevsBean(params)
+                .compose(CommonSchedulers.<GetDoorDevsBean>io2main())
+                .subscribe(new CommonObserver<GetDoorDevsBean>() {
+                    @Override
+                    public void onNext(GetDoorDevsBean loginBean) {
+                        callback.onOPendoorListSuccess(loginBean);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onOPendoorListFailure(e);
+                    }
+                });
+    }
+
+    @Override
+    public void getOPendoorModel(RequestBody params, IMOPendoorCallback callback) {
+        RequestNet.getInstance().create().getOpenDoor(params)
+                .compose(CommonSchedulers.<VisitorBanedBean>io2main())
+                .subscribe(new CommonObserver<VisitorBanedBean>() {
+                    @Override
+                    public void onNext(VisitorBanedBean loginBean) {
+                        callback.onOPendoorSuccess(loginBean);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onOPendoorFailure(e);
                     }
                 });
     }

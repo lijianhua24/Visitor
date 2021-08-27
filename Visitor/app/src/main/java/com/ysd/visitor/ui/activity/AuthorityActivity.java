@@ -49,7 +49,7 @@ public class AuthorityActivity extends BaseActivity<AuthorityPresenter> implemen
 
     @Override
     protected void initData() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         aurhortiy_recy.setLayoutManager(gridLayoutManager);
 
         HashMap<String,String> hashMap = new HashMap<>();
@@ -83,6 +83,8 @@ public class AuthorityActivity extends BaseActivity<AuthorityPresenter> implemen
         aurhortiy_smart = findViewById(R.id.aurhortiy_smart);
 
         car_head_linear = findViewById(R.id.car_head_linear);
+        TextView car_name = findViewById(R.id.car_name);
+        car_name.setText("权限管理");
         car_head_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -55,18 +55,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".ui.activity.MainActivity"></activity>
+        <activity android:name=".ui.activity.OpenDoorActivity"></activity>
         <activity android:name=".ui.activity.SettingsActivity" />
         <activity android:name=".ui.activity.VisitorDetailsActivity" />
         <activity android:name=".ui.activity.AuthorityActivity" />
         <activity android:name=".ui.activity.InquireActivity" />
+        <activity android:name=".ui.activity.MainActivity" />
         <activity
             android:name="com.king.zxing.CaptureActivity"
             android:screenOrientation="fullSensor"
             android:theme="@style/CaptureTheme" />
-        <activity
-            android:name=".ui.activity.RegisterActivity"
-           />
+        <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

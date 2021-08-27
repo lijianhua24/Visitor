@@ -12,18 +12,26 @@
         android:layout_height="match_parent">
         <ImageView
             android:layout_marginLeft="17dp"
-            android:background="@mipmap/password_back"
-            android:layout_width="5.12dp"
-            android:layout_height="8.54dp"/>
+            android:background="@mipmap/finsh_image"
+            android:layout_width="8.12dp"
+            android:layout_height="11.54dp"/>
         <TextView
             android:id="@+id/car_head_finsh"
             android:text="返回"
-            android:layout_marginLeft="7dp"
+            android:layout_marginLeft="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBai"
             android:textSize="12sp"
             />
     </LinearLayout>
-
+    <TextView
+        android:gravity="center"
+        android:id="@+id/car_name"
+        android:text="访客管理"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/colorBai"
+        android:textSize="14sp"
+        />
 </RelativeLayout>

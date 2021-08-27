@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -77,6 +78,7 @@ public class InquireAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 String s = TimeUtil.timeYMDChinese(aLong);
                 ((myInquireAdapter) holder).creantime.setText(s);
             }
+            ((myInquireAdapter) holder).relative.setVisibility(View.GONE);
           /*  //结束时间
             String leave_time = list.get(position).getLeave_time();
             if (leave_time != null) {
@@ -104,8 +106,9 @@ public class InquireAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private class myInquireAdapter extends RecyclerView.ViewHolder {
 
-        private final TextView name, idcad, creantime, leavetime,equipment;
+        private final TextView name, idcad, creantime, leavetime,equipment,purpose;
         private final ImageView image;
+        private final RelativeLayout relative;
 
         public myInquireAdapter(@NonNull View itemView) {
             super(itemView);
@@ -115,6 +118,8 @@ public class InquireAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             equipment = itemView.findViewById(R.id.aurhortiy_adapter_equipment);
             leavetime = itemView.findViewById(R.id.aurhortiy_adapter_leavetime);
             image = itemView.findViewById(R.id.aurhortiy_adapter_simple);
+            purpose = itemView.findViewById(R.id.aurhortiy_adapter_purpose);
+            relative = itemView.findViewById(R.id.aurhortiy_adapter_relative);
         }
     }
 }
