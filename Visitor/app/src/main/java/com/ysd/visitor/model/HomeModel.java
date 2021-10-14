@@ -4,6 +4,7 @@ import com.ysd.visitor.bean.CheckedModelListBean;
 import com.ysd.visitor.bean.GetAdverListBean;
 import com.ysd.visitor.bean.GetDoorDevsBean;
 import com.ysd.visitor.bean.GetModelListBean;
+import com.ysd.visitor.bean.GetUnionCodeListBean;
 import com.ysd.visitor.bean.GetVisitorListBean;
 import com.ysd.visitor.bean.GetVisitorRightsBean;
 import com.ysd.visitor.bean.LoginBean;
@@ -18,7 +19,9 @@ import com.ysd.visitor.utlis.RequestNet;
 
 import okhttp3.RequestBody;
 
-public class HomeModel implements HomeContract.getLogin.IModel, HomeContract.getVisitorList.IModel, HomeContract.getVisitorRights.IModel, HomeContract.getModelList.IModel, HomeContract.getDoorDevs.IModel, HomeContract.getVisitorInOutRecord.IModel, HomeContract.getSubmitVisitorInfo.IModel, HomeContract.getOPendoorList.IModel {
+public class HomeModel implements HomeContract.getLogin.IModel, HomeContract.getVisitorList.IModel, HomeContract.getVisitorRights.IModel, HomeContract.getModelList.IModel,
+        HomeContract.getDoorDevs.IModel, HomeContract.getVisitorInOutRecord.IModel, HomeContract.getSubmitVisitorInfo.IModel, HomeContract.getOPendoorList.IModel,HomeContract.getUnionCodeList.IModel,
+HomeContract.getUnionCodes.IModel,HomeContract.getUseTicket.IModel{
     @Override
     public void getLoginModel(RequestBody params, IMLoginCallback callback) {
         RequestNet.getInstance().create().getLogin(params)
@@ -373,6 +376,57 @@ public class HomeModel implements HomeContract.getLogin.IModel, HomeContract.get
                     @Override
                     public void onError(Throwable e) {
                         callback.onOPendoorFailure(e);
+                    }
+                });
+    }
+
+    @Override
+    public void getUnionCodeListModel(RequestBody params, IMUnionCodeListCallback callback) {
+        RequestNet.getInstance().create().getUnionCodeList(params)
+                .compose(CommonSchedulers.<GetUnionCodeListBean>io2main())
+                .subscribe(new CommonObserver<GetUnionCodeListBean>() {
+                    @Override
+                    public void onNext(GetUnionCodeListBean loginBean) {
+                        callback.onUnionCodeListSuccess(loginBean);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onUnionCodeListFailure(e);
+                    }
+                });
+    }
+
+    @Override
+    public void getUnionCodesModel(RequestBody params, IMUnionCodesCallback callback) {
+        RequestNet.getInstance().create().getUnionCodes(params)
+                .compose(CommonSchedulers.<SubmitVisitorInfoBean>io2main())
+                .subscribe(new CommonObserver<SubmitVisitorInfoBean>() {
+                    @Override
+                    public void onNext(SubmitVisitorInfoBean loginBean) {
+                        callback.onUnionCodesSuccess(loginBean);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onUnionCodesFailure(e);
+                    }
+                });
+    }
+
+    @Override
+    public void getUseTicketModel(RequestBody params, IMUseTicketCallback callback) {
+        RequestNet.getInstance().create().getUseTicket(params)
+                .compose(CommonSchedulers.<SubmitVisitorInfoBean>io2main())
+                .subscribe(new CommonObserver<SubmitVisitorInfoBean>() {
+                    @Override
+                    public void onNext(SubmitVisitorInfoBean loginBean) {
+                        callback.onUseTicketSuccess(loginBean);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onUseTicketFailure(e);
                     }
                 });
     }

@@ -6,6 +6,6 @@ package com.ysd.visitor.app;
 public interface Constant {
 
     //user/v2/register
-    String BASE_URL = "http://39.97.176.54:8085/VisitorAPI/";
+    String BASE_URL = "http://39.97.176.54:8083/VisitorAPI/";
 
 }

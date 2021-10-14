@@ -3,6 +3,7 @@ package com.ysd.visitor.base;
 import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -51,7 +52,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         setContentView(provideLayoutId());
         ActivityCollectorUtil.addActivity(this);
         this.setContentView(this.provideLayoutId());
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         mUnbinder = ButterKnife.bind(this);
         mPresenter = providePresenter();
         context = this;

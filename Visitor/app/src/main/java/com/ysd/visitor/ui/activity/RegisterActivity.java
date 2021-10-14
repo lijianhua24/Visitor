@@ -108,8 +108,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     Handler h = new Handler() {
         public void handleMessage(android.os.Message msg) {
             if (msg.what == HandlerMsg.READ_SUCCESS) {
-                String time = TimeUtil.getTime();
-                register_time.setText(time);
                 Toast.makeText(RegisterActivity.this, "读卡成功", Toast.LENGTH_SHORT).show();
                 HSIDCardInfo ic = (HSIDCardInfo) msg.obj;
                 byte[] fp = new byte[1024];
@@ -247,6 +245,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     private Dialog dialog;
     private int ret;
     private RecyclerView register_efficient_recy, register_purpose_recy;
+    private boolean mArtificial = false;
 
     @Override
     protected RegisterPresenter providePresenter() {
@@ -256,7 +255,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     @Override
     protected void initData() {
         initCamera();
-
       /*  mDisplayManager = (DisplayManager) RegisterActivity.this.getSystemService(Context.DISPLAY_SERVICE);
         displays = mDisplayManager.getDisplays(); //得到显示器数组
         SecondScreen mPresentation = new SecondScreen(getApplicationContext(), displays[1], R.layout.camera_layout);//displays[1]是副屏
@@ -300,7 +298,10 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         register_bb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (itemTime != null) {
+                    String[] split = itemTime.split("分钟");
+                    itemTime = split[0];
+                }
                 if (check) {
                     String phone = register_efficient_phone.getText().toString();
                     if (sex.contains("name")) {
@@ -362,21 +363,49 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
                     }
 
-                } else if (data_name.contains("快捷")) {
+                } else if (data_name.contains("人工模式")) {
+                    String name = register_name.getText().toString();
+                    String phone = register_efficient_phone.getText().toString();
+                    String carid = register_carid.getText().toString();
                     if (itemType != null) {
                         if (itemTime != null) {
-                            String phone = register_efficient_phone.getText().toString();
-                            HashMap<String, String> hashMap = new HashMap<>();
-                            hashMap.put("devcode", token);
-                            hashMap.put("name", name);
-                            hashMap.put("idcard", idcard);
-                            hashMap.put("phone", phone);
-                            hashMap.put("type", value);
-                            hashMap.put("purpose", itemType);
-                            hashMap.put("limit", itemTime);
-                            String s = new Gson().toJson(hashMap);
-                            RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
-                            mPresenter.getSubmitVisitorInfosPresenter(requestBody);
+                            if (bitmap1 != null) {
+                                if (name != null) {
+                                    if (phone.length() == 11) {
+                                        if (carid != null) {
+                                            Toast.makeText(RegisterActivity.this, "12", Toast.LENGTH_SHORT).show();
+                                            String s1 = bitmapToBase64(bitmap1);
+                                            HashMap<String, String> hashMap = new HashMap<>();
+                                            hashMap.put("devcode", token);
+                                            hashMap.put("name", name);
+                                            hashMap.put("idcard", carid);
+                                            hashMap.put("phone", phone);
+                                            hashMap.put("type", value);
+                                            hashMap.put("purpose", itemType);
+                                            hashMap.put("limit", itemTime);
+                                            hashMap.put("photo", "data:image/jpeg;base64," + s1);
+                                            String s = new Gson().toJson(hashMap);
+                                            Log.d(TAG, "itemType: " + itemType);
+                                            Log.d(TAG, "itemTime: " + itemTime);
+                                            Log.d(TAG, "idcard: " + carid);
+                                            Log.d(TAG, "phone: " + phone);
+                                            Log.d(TAG, "json: " + s);
+                                            RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
+                                            mPresenter.getSubmitVisitorInfosPresenter(requestBody);
+                                        } else {
+                                            Toast.makeText(RegisterActivity.this, "请输入身份证号", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(RegisterActivity.this, "手机号不正确，请重新输入 ", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(RegisterActivity.this, "请输入名字", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "请采集访客留存", Toast.LENGTH_SHORT).show();
+                            }
+
                         } else {
                             Toast.makeText(RegisterActivity.this, "请选择权限有效期", Toast.LENGTH_SHORT).show();
                         }
@@ -451,9 +480,17 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                     cameraHelper.setCameraListener(new Camera3Listener() {
                         @Override
                         public void onCaptured(Bitmap bitmap) {
+                            String time = TimeUtil.getTime();
+                            register_time.setText(time);
                             bitmap1 = bitmap;
-                            register_image.setImageBitmap(bitmap1);
-                            doDetect(bitmap, 1);
+                            if (mArtificial) {
+
+                            } else {
+                                doDetect(bitmap, 1);
+                            }
+
+                            //register_image.setImageBitmap(bitmap1);
+
                             cameraHelper.start();
                             if (cameraHelper != null) {
                                 cameraHelper.release();
@@ -514,7 +551,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     @Override
     public void onSubmitVisitorInfoSuccess(Object data) {
-
+        bmp = null;
+        bitmap1 = null;
         if (data instanceof SubmitVisitorInfoBean) {
             if (((SubmitVisitorInfoBean) data).getCode() == 0) {
                 Toast.makeText(this, "登记成功", Toast.LENGTH_SHORT).show();
@@ -546,7 +584,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         bmp = null;
         bitmap1 = null;
         check = false;
-        if (data_name.contains("快捷")) {
+        if (data_name.contains("人工模式")) {
             ListBean listBean = (ListBean) data;
             List<ListBean.DataBean> list = listBean.getData();
             dialog = new Dialog(RegisterActivity.this, R.style.DialogTheme);
@@ -564,7 +602,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
             RegisterAdapter registerAdapter = new RegisterAdapter(RegisterActivity.this, list);
             recyclerView.setAdapter(registerAdapter);
             registerAdapter.getChange(new RegisterAdapter.setListnter() {
-                 @Override
+                @Override
                 public void getListenter(int i) {
                     registerAdapter.setmPosition(i);
                     devCode = list.get(i).getDevCode();
@@ -611,13 +649,15 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                         register_carid.setEnabled(false);
                         register_carid.setHint("请读取身份证");
                         register_name.setHint("请读取身份证");
-                    } else if (data_name.contains("快捷")) {
+                        mArtificial = false;
+                    } else if (data_name.contains("人工模式")) {
                         register_efficient_linear.setVisibility(View.VISIBLE);
                         register_name.setEnabled(true);
                         register_carid.setEnabled(true);
                         register_carid.setHint("请输入身份证号");
                         register_name.setHint("请输入姓名");
                         register_contrast.setVisibility(View.GONE);
+                        mArtificial = true;
                     } else {
                         register_name.setEnabled(false);
                         register_carid.setEnabled(false);
@@ -625,6 +665,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                         register_name.setHint("请读取身份证");
                         register_contrast.setVisibility(View.VISIBLE);
                         register_efficient_linear.setVisibility(View.GONE);
+                        mArtificial = false;
                     }
                 }
             });
@@ -1011,10 +1052,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
             public void getListenter(int i) {
                 timeAdapter.setmPosition(i);
                 timeAdapter.notifyDataSetChanged();
-                RegisterActivity.this.itemType = list_pro.get(i);
-                if (itemType == null) {
-                    itemType = list_pro.get(0);
-                }
+                itemType = list_pro.get(i);
                 register_purpose_text.setText(itemType);
                 register_purpose_text.setTextColor(RegisterActivity.this.getResources().getColor(R.color.colorBlack));
 
@@ -1041,10 +1079,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
             public void getListenter(int i) {
                 timeAdapter.setmPosition(i);
                 timeAdapter.notifyDataSetChanged();
-                RegisterActivity.this.itemTime = list_time.get(i);
-                if (itemTime == null) {
-                    itemTime = list_time.get(0);
-                }
+                itemTime = list_time.get(i);
                 register_efficient_tv.setText(itemTime);
                 register_efficient_tv.setTextColor(RegisterActivity.this.getResources().getColor(R.color.colorBlack));
 

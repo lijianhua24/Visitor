@@ -55,7 +55,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".ui.activity.OpenDoorActivity"></activity>
+        <activity android:name=".ui.activity.UseCouponActivity"></activity>
+        <activity android:name=".ui.activity.AppCouponActivity" />
+        <activity android:name=".ui.activity.CouponActivity" />
+        <activity android:name=".ui.activity.OpenDoorActivity" />
         <activity android:name=".ui.activity.SettingsActivity" />
         <activity android:name=".ui.activity.VisitorDetailsActivity" />
         <activity android:name=".ui.activity.AuthorityActivity" />

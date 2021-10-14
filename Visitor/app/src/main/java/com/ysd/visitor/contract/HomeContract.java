@@ -5,6 +5,7 @@ import com.ysd.visitor.bean.CheckedModelListBean;
 import com.ysd.visitor.bean.GetAdverListBean;
 import com.ysd.visitor.bean.GetDoorDevsBean;
 import com.ysd.visitor.bean.GetModelListBean;
+import com.ysd.visitor.bean.GetUnionCodeListBean;
 import com.ysd.visitor.bean.GetVisitorListBean;
 import com.ysd.visitor.bean.GetVisitorRightsBean;
 import com.ysd.visitor.bean.LoginBean;
@@ -440,6 +441,96 @@ public interface HomeContract {
             void getOPendoorListPresenter(RequestBody params);
 
             void getOPendoorPresenter(RequestBody params);
+
+        }
+    }
+
+    interface getUnionCodeList {
+        interface IModel {
+            void getUnionCodeListModel(RequestBody params, IMUnionCodeListCallback callback);
+
+            //model层中的接口回调
+            interface IMUnionCodeListCallback {
+                void onUnionCodeListSuccess(GetUnionCodeListBean data);
+
+                void onUnionCodeListFailure(Throwable e);
+            }
+
+        }
+
+        //view层  命名必须是IView
+        interface IView extends IBaseView {
+
+            void onUnionCodeListSuccess(GetUnionCodeListBean data);
+
+            void onUnionCodeListFailure(Throwable e);
+
+        }
+
+        //presenter层   命名必须是IPresenter
+        interface IPresenter {
+
+            void getUnionCodeListPresenter(RequestBody params);
+
+        }
+    }
+
+    interface getUnionCodes {
+        interface IModel {
+            void getUnionCodesModel(RequestBody params, IMUnionCodesCallback callback);
+
+            //model层中的接口回调
+            interface IMUnionCodesCallback {
+                void onUnionCodesSuccess(SubmitVisitorInfoBean data);
+
+                void onUnionCodesFailure(Throwable e);
+            }
+
+        }
+
+        //view层  命名必须是IView
+        interface IView extends IBaseView {
+
+            void onUnionCodesSuccess(SubmitVisitorInfoBean data);
+
+            void onUnionCodesFailure(Throwable e);
+
+        }
+
+        //presenter层   命名必须是IPresenter
+        interface IPresenter {
+
+            void getUnionCodesPresenter(RequestBody params);
+
+        }
+    }
+
+    interface getUseTicket {
+        interface IModel {
+            void getUseTicketModel(RequestBody params, IMUseTicketCallback callback);
+
+            //model层中的接口回调
+            interface IMUseTicketCallback {
+                void onUseTicketSuccess(SubmitVisitorInfoBean data);
+
+                void onUseTicketFailure(Throwable e);
+            }
+
+        }
+
+        //view层  命名必须是IView
+        interface IView extends IBaseView {
+
+            void onUseTicketSuccess(SubmitVisitorInfoBean data);
+
+            void onUseTicketFailure(Throwable e);
+
+        }
+
+        //presenter层   命名必须是IPresenter
+        interface IPresenter {
+
+            void getUseTicketPresenter(RequestBody params);
 
         }
     }

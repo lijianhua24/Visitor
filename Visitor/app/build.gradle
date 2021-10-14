@@ -13,7 +13,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
-
             abiFilters "armeabi"
         }
 
@@ -104,5 +103,8 @@ dependencies {
     implementation 'com.github.xiaohaibin:XBanner:androidx_v1.0.2'
 
     implementation 'com.king.zxing:zxing-lite:1.1.7-androidx'
+    //车牌输入框
+    implementation 'com.github.winterPei:LicensePlateUtil:v+'
+    implementation 'com.parkingwang:keyboard:0.6.1'
 
 }

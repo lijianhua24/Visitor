@@ -1,5 +1,6 @@
 package com.ysd.visitor.ui.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ysd.visitor.R;
 import com.ysd.visitor.adapter.AuthorityAdapter;
 import com.ysd.visitor.base.BaseActivity;
@@ -41,6 +45,10 @@ public class AuthorityActivity extends BaseActivity<AuthorityPresenter> implemen
     private Dialog mWeiboDialogUtils;
     private TextView car_head_name;
     private View car_head_linear;
+    private int page = 1;
+    private String search = "";
+    private int anInt = 0;
+    private AuthorityAdapter authorityAdapter;
 
     @Override
     protected AuthorityPresenter providePresenter() {
@@ -49,11 +57,12 @@ public class AuthorityActivity extends BaseActivity<AuthorityPresenter> implemen
 
     @Override
     protected void initData() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
         aurhortiy_recy.setLayoutManager(gridLayoutManager);
 
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("key","");
+        hashMap.put("key",search);
+        hashMap.put("page",page+"");
         String s = new Gson().toJson(hashMap);
         RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
         mPresenter.getVisitorListPresenter(requestBody);
@@ -61,17 +70,59 @@ public class AuthorityActivity extends BaseActivity<AuthorityPresenter> implemen
             @Override
             public void onClick(View v) {
                 String trim = aurhortiy_edit.getText().toString().trim();
-                if (trim!=null){
+                if (!trim.isEmpty()){
+                    search = trim;
                     mWeiboDialogUtils = WeiboDialogUtils.createLoadingDialog(AuthorityActivity.this, "正在搜索....");
-
+                    page = 1;
+                    anInt = 0;
+                    list.clear();
                     HashMap<String,String> hashMap = new HashMap<>();
-                    hashMap.put("key",trim);
+                    hashMap.put("key",search);
+                    hashMap.put("page",page+"");
                     String s = new Gson().toJson(hashMap);
                     RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
                     mPresenter.getVisitorListPresenter(requestBody);
+                }else {
+                    search = "";
+                    Toast.makeText(AuthorityActivity.this, "请输入搜索内容", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+        //刷新
+        aurhortiy_smart.setEnableRefresh(true);
+        aurhortiy_smart.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                list.clear();
+                page = 1;
+                anInt = 0;
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put("key",search);
+                hashMap.put("page",page+"");
+                String s = new Gson().toJson(hashMap);
+                RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
+                mPresenter.getVisitorListPresenter(requestBody);
+                authorityAdapter.notifyDataSetChanged();
+            }
+        });
+
+        //加载
+        aurhortiy_smart.setEnableLoadMore(true);
+        aurhortiy_smart.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                page++;
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put("key",search);
+                hashMap.put("page",page+"");
+                String s = new Gson().toJson(hashMap);
+                RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
+                mPresenter.getVisitorListPresenter(requestBody);
+                authorityAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     @Override
@@ -101,12 +152,17 @@ public class AuthorityActivity extends BaseActivity<AuthorityPresenter> implemen
     @Override
     public void onVisitorListSuccess(GetVisitorListBean data) {
         mWeiboDialogUtils.dismiss();
-        list.clear();
+        aurhortiy_smart.finishLoadMore();
+        aurhortiy_smart.finishRefresh();
         if (data.getCode() == 0){
             List<GetVisitorListBean.DataBean> data1 = data.getData();
             list.addAll(data1);
-            AuthorityAdapter authorityAdapter = new AuthorityAdapter(this, list);
-            aurhortiy_recy.setAdapter(authorityAdapter);
+            if (anInt == 0 ){
+                authorityAdapter = new AuthorityAdapter(this, list);
+                aurhortiy_recy.setAdapter(authorityAdapter);
+                anInt++;
+            }
+
         }else {
             Toast.makeText(this, ""+data.getMsg(), Toast.LENGTH_SHORT).show();
         }

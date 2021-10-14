@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="121dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="81.5dp"
+        android:background="@drawable/login_bt"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/coupon_adapter_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="全免券"
+            android:textColor="#ffffffff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/coupon_adapter_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2.5dp"
+            android:text="消费即可使用全额免单"
+            android:textColor="#ffffffff"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/coupon_adapter_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="2021.01.01-2021.12.31"
+            android:textColor="#ff10477b"
+            android:textSize="8sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="126dp"
+        android:background="#F5F5F5"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/coupon_adapter_sum"
+            android:layout_marginTop="7sp"
+            android:layout_marginLeft="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总张数：3"
+            android:textColor="#ff646464"
+            android:textSize="8sp" />
+        <TextView
+            android:layout_marginLeft="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="限品类：车辆减免"
+            android:layout_marginTop="5dp"
+            android:textColor="#ff646464"
+            android:textSize="8sp" />
+        <LinearLayout
+            android:gravity="center"
+            android:layout_marginTop="34.5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/coupon_adapter_bt"
+                android:background="@drawable/pullblack"
+                android:text="立即使用"
+                android:textColor="#ff0094ff"
+                android:textSize="8sp"
+                android:layout_width="65dp"
+                android:layout_height="21dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

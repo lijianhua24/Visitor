@@ -48,7 +48,7 @@
                 android:background="@null"
                 android:hint="请输入账号"
                 android:singleLine="true"
-                android:text="test"
+                android:text="13783633090"
                 android:textColor="#FFFFFF"
 
                 android:textSize="12sp" />
@@ -79,7 +79,7 @@
                 android:hint="请输入账号"
                 android:password="true"
                 android:singleLine="true"
-                android:text="123"
+                android:text="123456"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp" />
         </LinearLayout>

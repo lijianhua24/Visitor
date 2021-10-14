@@ -5,6 +5,7 @@ import com.ysd.visitor.bean.CheckedModelListBean;
 import com.ysd.visitor.bean.GetAdverListBean;
 import com.ysd.visitor.bean.GetDoorDevsBean;
 import com.ysd.visitor.bean.GetModelListBean;
+import com.ysd.visitor.bean.GetUnionCodeListBean;
 import com.ysd.visitor.bean.GetVisitorListBean;
 import com.ysd.visitor.bean.GetVisitorRightsBean;
 import com.ysd.visitor.bean.ListBean;
@@ -87,6 +88,18 @@ public interface Api {
     //获取选中列表
     @POST("OpenDoor")
     Observable<VisitorBanedBean> getOpenDoor(@Body RequestBody params);
+
+    //获取车辆减免列表
+    @POST("GetUnionCodeList")
+    Observable<GetUnionCodeListBean> getUnionCodeList(@Body RequestBody params);
+
+    //获取车辆减免列表
+    @POST("GenerateUnionCodes")
+    Observable<SubmitVisitorInfoBean> getUnionCodes(@Body RequestBody params);
+
+    //获取车辆减免列表
+    @POST("UseTicket")
+    Observable<SubmitVisitorInfoBean> getUseTicket(@Body RequestBody params);
 
 
 }

@@ -1,5 +1,6 @@
 package com.ysd.visitor.ui.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +18,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ysd.visitor.R;
 import com.ysd.visitor.adapter.InquireAdapter;
 import com.ysd.visitor.base.BaseActivity;
@@ -42,6 +46,10 @@ public class InquireActivity extends BaseActivity<VisitorInOutRecordPresenter> i
     private Dialog mWeiboDialogUtils;
     private EditText inquire_edit;
     private ImageView inquire_bt;
+    private int page = 1;
+    private int anInt = 0;
+    private String search = "";
+    private InquireAdapter inquireAdapter;
 
     @Override
     protected VisitorInOutRecordPresenter providePresenter() {
@@ -53,7 +61,8 @@ public class InquireActivity extends BaseActivity<VisitorInOutRecordPresenter> i
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         inquire_recy.setLayoutManager(gridLayoutManager);
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("key", "");
+        hashMap.put("key", search);
+        hashMap.put("page", page + "");
         String s = new Gson().toJson(hashMap);
         RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
         mPresenter.getVisitorInOutRecordPresenter(requestBody);
@@ -61,16 +70,56 @@ public class InquireActivity extends BaseActivity<VisitorInOutRecordPresenter> i
             @Override
             public void onClick(View v) {
                 String trim = inquire_edit.getText().toString().trim();
-                if (trim.length() != 0) {
+                if (!trim.isEmpty()) {
+                    search = trim;
+                    page = 1;
+                    anInt =0;
+                    list.clear();
                     mWeiboDialogUtils = WeiboDialogUtils.createLoadingDialog(InquireActivity.this, "正在搜索....");
                     HashMap<String, String> hashMap = new HashMap<>();
-                    hashMap.put("key", trim);
+                    hashMap.put("key", search);
+                    hashMap.put("page", page + "");
                     String s = new Gson().toJson(hashMap);
                     RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
                     mPresenter.getVisitorInOutRecordPresenter(requestBody);
                 } else {
                     Toast.makeText(InquireActivity.this, "请填写搜索内容", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+
+        //刷新
+        inquire_smart.setEnableRefresh(true);
+        inquire_smart.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                list.clear();
+                page = 1;
+                anInt =0;
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("key", search);
+                hashMap.put("page", page + "");
+                String s = new Gson().toJson(hashMap);
+                RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
+                mPresenter.getVisitorInOutRecordPresenter(requestBody);
+                inquireAdapter.notifyDataSetChanged();
+            }
+        });
+
+        //加载
+        inquire_smart.setEnableLoadMore(true);
+        inquire_smart.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                page++;
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("key", search);
+                hashMap.put("page", page + "");
+                String s = new Gson().toJson(hashMap);
+                RequestBody requestBody = RequestBody.create(MediaType.get("application/json;charset=UTF-8"), s);
+                mPresenter.getVisitorInOutRecordPresenter(requestBody);
+                inquireAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -100,12 +149,17 @@ public class InquireActivity extends BaseActivity<VisitorInOutRecordPresenter> i
 
     @Override
     public void onVisitorInOutRecordSuccess(VisitorInOutRecordBean data) {
+        inquire_smart.finishLoadMore();
+        inquire_smart.finishRefresh();
         mWeiboDialogUtils.dismiss();
-        list.clear();
         if (data.getCode() == 0) {
             List<VisitorInOutRecordBean.DataBean> data1 = data.getData();
             list.addAll(data1);
-            inquire_recy.setAdapter(new InquireAdapter(this, list));
+            if (anInt == 0) {
+                inquireAdapter = new InquireAdapter(this, list);
+                inquire_recy.setAdapter(inquireAdapter);
+                anInt++;
+            }
         }
     }
 

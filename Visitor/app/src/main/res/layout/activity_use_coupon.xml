@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F7FB"
+    android:orientation="vertical"
+    tools:context=".ui.activity.UseCouponActivity">
+
+    <include layout="@layout/head_layout" />
+
+    <LinearLayout
+        android:id="@+id/usecoupon_linear"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorBai"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#F8F8FA"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="基本信息"
+            android:textColor="#ff323232"
+            android:textSize="8sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25.5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19.5dp"
+                android:text="车牌号码："
+                android:textColor="#ff323232"
+                android:textSize="8sp" />
+
+            <EditText
+                android:id="@+id/usecoupon_car"
+                android:layout_width="200dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="3dp"
+                android:background="@drawable/text_border"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="11dp"
+                android:layout_marginLeft="19.5dp"
+                android:text="车辆类型："
+                android:textColor="#ff232735"
+                android:textSize="8sp" />
+
+            <ImageView
+                android:id="@+id/usecoupon_image"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@mipmap/cart_icon_default" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="新能源车牌"
+                android:textColor="#ff232735"
+                android:textSize="8sp" />
+        </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="19.5dp"
+            android:layout_marginTop="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="使用详情："
+                android:textColor="#ff232735"
+                android:textSize="8sp" />
+
+            <EditText
+                android:id="@+id/usecoupon_remark"
+                android:layout_width="247dp"
+                android:layout_height="57dp"
+                android:layout_marginLeft="3dp"
+                android:background="@drawable/text_border"
+                android:gravity="top"
+                android:hint="请填写使用原因"
+                android:padding="5dp"
+                android:paddingLeft="5dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="8sp" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginTop="124dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:text="立即优免"
+                    android:textColor="#ffffffff"
+                    android:id="@+id/usecoupon_bt"
+                    android:textSize="8sp"
+                    android:background="@drawable/collection_bt"
+                    android:layout_width="80dp"
+                    android:layout_height="21dp"/>
+            </LinearLayout>
+            <android.inputmethodservice.KeyboardView
+                android:id="@+id/keyboard_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#DCDCDC"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:keyBackground="@drawable/selector_key"
+                android:keyTextColor="#000"
+                android:keyTextSize="18sp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:shadowColor="#FFFFFF"
+                android:shadowRadius="0.0"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
